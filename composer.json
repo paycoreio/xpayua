@@ -1,5 +1,5 @@
 {
-    "name": "paycoreio/xpayua",
+    "name": "paycore/xpayua",
     "description": "Simplify work with xpayua api",
     "type": "library",
     "autoload": {
