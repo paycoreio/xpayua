@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Paycore\XPayua;
+namespace Paycore\Xpayua;
 
 use phpseclib\Crypt\RSA;
 
