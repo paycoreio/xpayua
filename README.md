@@ -1,6 +1,6 @@
-# Library for Xpayua
+# Library for Xpay
   
-This library aims to perform cryptographic operations for interaction with XPayua.
+This library aims to perform cryptographic operations for interaction with [XPay](https://xpay.com.ua/).
 
 
 ### Key generation
