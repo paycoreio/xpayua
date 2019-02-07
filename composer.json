@@ -1,0 +1,20 @@
+{
+    "name": "paycoreio/xpayua",
+    "description": "Simplify work with xpayua api",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Paycore\\Xpayua\\": "src/Xpayua"
+        }
+    },
+    "require": {
+        "phpseclib/phpseclib": "^2.0",
+        "ext-openssl": "*"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    },
+    "license": "MIT"
+}

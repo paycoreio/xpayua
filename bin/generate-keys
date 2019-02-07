@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+
+use phpseclib\Crypt\RSA;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$rsa = new RSA();
+
+$rsa->setPrivateKeyFormat(RSA::PRIVATE_FORMAT_PKCS1);
+$rsa->setPublicKeyFormat(RSA::PRIVATE_FORMAT_PKCS1);
+
+$result = $rsa->createKey(2048);
+
+file_put_contents('private', $result['privatekey']);
+file_put_contents('public', $result['publickey']);
