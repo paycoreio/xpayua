@@ -15,7 +15,7 @@ This command will create 2 files in a current directory. Send a public key to XP
 ```php
 $privateKey = ''; // your private key
 $publicKey = ''; // key that you've got from XPayua
-$manager = new CryptManager($privateKey, $publicKey);
+$manager = new CryptManager();
 
 
 $requestData = ['ID' => ''];
@@ -28,7 +28,7 @@ $partner = [
 $data = [
       'Partner' => $partner,
       'Data' => $cryptManager->encrypt($requestData),
-      'KeyAES' => $cryptManager->getEncryptedAESKey(),
-      'Sign' => $cryptManager->getSignedKey(),
+      'KeyAES' => $cryptManager->getEncryptedAESKey($publicKey),
+      'Sign' => $cryptManager->getSignedKey($privateKey),
 ];
 ```
