@@ -6,41 +6,13 @@ namespace Paycore\Xpayua;
 
 use phpseclib\Crypt\RSA;
 
-/**
- * Class CryptManager
- *
- * @package Paycore\XPayua
- */
-final class CryptManager
+final class CryptManager implements CryptManagerInterface
 {
-    /** @var string */
-    private $privateKey;
-
-    /** @var string */
-    private $publicKey;
-
-    /** @var string */
-    private $method = 'AES-128-CBC';
-
-    /** @var null|string */
-    private $encryptionKey;
-
-    /** @var null|string */
-    private $encryptedAESkey;
-
     public const BLOCK_SIZE = 16;
 
-    /**
-     * XPayCryptManager constructor.
-     *
-     * @param string $privateKey
-     * @param string $publicKey
-     */
-    public function __construct(string $privateKey, string $publicKey)
-    {
-        $this->privateKey = $privateKey;
-        $this->publicKey = $publicKey;
-    }
+    private string $method = 'AES-128-CBC';
+    private ?string $encryptionKey = null;
+    private ?string $encryptedAESkey = null;
 
     public function reset(): void
     {
@@ -66,13 +38,13 @@ final class CryptManager
         return base64_encode($cipherResult);
     }
 
-    public function decrypt(string $aesKey, string $data)
+    public function decrypt(string $aesKey, string $data, string $privateKey)
     {
         $key = base64_decode($aesKey, true);
 
         // STEP 3
         $rsa = new RSA();
-        $rsa->loadKey($this->privateKey);
+        $rsa->loadKey($privateKey);
         $rsa->setEncryptionMode(RSA::MODE_OPENSSL);
         $decryptedKey = $rsa->decrypt($key);
 
@@ -87,11 +59,11 @@ final class CryptManager
         return substr($resultData, self::BLOCK_SIZE);
     }
 
-    public function getEncryptedAESKey(): string
+    public function getEncryptedAESKey(string $publicKey): string
     {
         if (null === $this->encryptedAESkey) {
             $rsa = new RSA();
-            $rsa->loadKey($this->publicKey);
+            $rsa->loadKey($publicKey);
             $rsa->setEncryptionMode(RSA::MODE_OPENSSL);
             $binaryCryptedKey = $rsa->encrypt($this->getEncryptionKey());
 
@@ -110,10 +82,10 @@ final class CryptManager
         return $this->encryptionKey;
     }
 
-    public function getSignedKey(): string
+    public function getSignedKey(string $privateKey): string
     {
         $rsa = new RSA();
-        $rsa->loadKey($this->privateKey);
+        $rsa->loadKey($privateKey);
         $rsa->setHash('sha256');
         $rsa->setEncryptionMode(RSA::MODE_OPENSSL);
         $rsa->setSignatureMode(RSA::SIGNATURE_PKCS1);
